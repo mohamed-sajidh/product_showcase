@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:product_showcase/view/widgets/single_product_viewer.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -11,10 +12,15 @@ class HomePage extends StatelessWidget {
           child: Text("Product Showcase"),
         ),
       ),
-      body: Container(
-        height: 50,
-        width: 100,
-        color: Colors.red,
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: ListView.separated(
+          itemBuilder: (context, index) {
+            return const SingleProductViewer();
+          },
+          separatorBuilder: (context, index) => const Divider(),
+          itemCount: 10,
+        ),
       ),
     );
   }
