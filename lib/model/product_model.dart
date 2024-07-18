@@ -3,7 +3,7 @@ import 'dart:convert';
 class ProductModel {
   int id;
   String title;
-  int price;
+  double price;
   String description;
   String category;
   String image;
@@ -45,7 +45,7 @@ class ProductModel {
 }
 
 class Rating {
-  int rate;
+  double rate;
   int count;
 
   Rating({

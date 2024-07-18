@@ -1,15 +1,29 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:product_showcase/controller/home_controller.dart';
 import 'package:product_showcase/utils/app_colors.dart';
 import 'package:product_showcase/utils/asset.dart';
+import 'package:provider/provider.dart';
 
 class SingleProductViewer extends StatelessWidget {
-  const SingleProductViewer({super.key});
+  const SingleProductViewer({super.key, required this.index});
+  final int index;
 
   @override
   Widget build(BuildContext context) {
+    final homeNotifier = Provider.of<HomeNotifier>(context);
     var screeenSize = MediaQuery.of(context).size;
     var width = screeenSize.width;
     var height = screeenSize.height;
+
+    String getFirstTwoWords(String title) {
+
+    List<String> words = title.split(' ');
+
+    String result = words.take(3).join(' ');
+
+    return result.length > 30 ? '${result.substring(0, 30)}...' : result; 
+  }
 
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -28,8 +42,13 @@ class SingleProductViewer extends StatelessWidget {
               Container(
                 width: width * 0.35,
                 decoration: BoxDecoration(
-                  color: AppColors.green,
                   borderRadius: BorderRadius.circular(10),
+                ),
+                child: CachedNetworkImage(
+                  imageUrl: homeNotifier.product[index].image,
+                  placeholder: (context, url) =>
+                      const Center(child: CircularProgressIndicator()),
+                  errorWidget: (context, url, error) => const Icon(Icons.error),
                 ),
               ),
               SizedBox(
@@ -38,20 +57,24 @@ class SingleProductViewer extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    "apple iphone 14",
-                    style: TextStyle(
-                      color: AppColors.black,
-                      fontSize: 15,
-                      fontWeight: FontWeight.w500,
+                  Container(
+                    constraints: const BoxConstraints(maxWidth: 300),
+                    child: Text(
+                      getFirstTwoWords(homeNotifier.product[index].title),
+                      style: const TextStyle(
+                        color: AppColors.black,
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500,
+                      ),
+                      softWrap: true,
                     ),
                   ),
                   SizedBox(
                     height: height * 0.010,
                   ),
-                  const Text(
-                    "40.00",
-                    style: TextStyle(
+                  Text(
+                    "${homeNotifier.product[index].price}.00",
+                    style: const TextStyle(
                       color: AppColors.black,
                       fontSize: 15,
                       fontWeight: FontWeight.w500,
