@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:product_showcase/controller/home_controller.dart';
 import 'package:product_showcase/utils/app_colors.dart';
 import 'package:product_showcase/utils/asset.dart';
+import 'package:product_showcase/view/widgets/show_success_popup.dart';
 import 'package:provider/provider.dart';
 
 class SingleProductViewer extends StatelessWidget {
@@ -86,7 +87,7 @@ class SingleProductViewer extends StatelessWidget {
                   Row(
                     children: [
                       InkWell(
-                        onTap: () => print("minus button tapped"),
+                        onTap: () => homeNotifier.minusButton(index),
                         child: Container(
                           height: height * 0.040,
                           width: width * 0.090,
@@ -111,9 +112,9 @@ class SingleProductViewer extends StatelessWidget {
                       SizedBox(
                         width: width * 0.030,
                       ),
-                      const Text(
-                        "0",
-                        style: TextStyle(
+                      Text(
+                        homeNotifier.value[index].toString(),
+                        style: const TextStyle(
                           color: AppColors.black,
                           fontSize: 15,
                           fontWeight: FontWeight.w500,
@@ -123,7 +124,7 @@ class SingleProductViewer extends StatelessWidget {
                         width: width * 0.030,
                       ),
                       InkWell(
-                        onTap: () => print("plus button tapped"),
+                        onTap: () => homeNotifier.addButton(index),
                         child: Container(
                           height: height * 0.040,
                           width: width * 0.090,
@@ -153,7 +154,7 @@ class SingleProductViewer extends StatelessWidget {
                   Align(
                     alignment: Alignment.bottomLeft,
                     child: InkWell(
-                      onTap: () => print("buy now button tapped"),
+                      onTap: () => showSuccessPopup(context, homeNotifier, index),
                       child: Container(
                         width: width * 0.20,
                         height: height * 0.060,
